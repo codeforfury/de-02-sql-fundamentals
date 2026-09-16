@@ -61,3 +61,32 @@ ON C.customer_id = O.customer_id;
 SELECT C.customer_id, C.name, O.order_id, O.product 
 FROM customers C LEFT JOIN orders O 
 ON C.customer_id = O.customer_id;
+
+-- 13. Subquery: orders above the average order amount
+SELECT * 
+FROM orders
+WHERE amount > (
+                    SELECT AVG(AMOUNT)
+				    FROM orders
+			   );
+
+-- 14. Subquery: customers who placed an order above 50000
+SELECT name, city
+FROM customers
+WHERE customer_id IN (
+							SELECT customer_id
+							FROM orders
+							WHERE amount > 50000
+					 );
+
+-- 15. Subquery: customer who placed the highest-value order
+SELECT name
+FROM customers
+WHERE customer_id = (
+						SELECT customer_id
+						FROM orders
+						WHERE amount = (
+											SELECT MAX(amount)
+											FROM orders
+										)
+					);
