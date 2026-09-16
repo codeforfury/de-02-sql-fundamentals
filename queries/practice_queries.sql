@@ -51,3 +51,13 @@ SELECT customer_id, COUNT(*) AS num_of_orders
 FROM orders
 GROUP BY customer_id
 HAVING COUNT(*) > 1;
+
+-- 11. INNER JOIN: show each order with customer name and city
+SELECT C.customer_id, C.name, O.order_id, O.product, C.city
+FROM customers C INNER JOIN orders O 
+ON C.customer_id = O.customer_id;
+
+-- 12. LEFT JOIN: show all customers, with orders of they exist 
+SELECT C.customer_id, C.name, O.order_id, O.product 
+FROM customers C LEFT JOIN orders O 
+ON C.customer_id = O.customer_id;
