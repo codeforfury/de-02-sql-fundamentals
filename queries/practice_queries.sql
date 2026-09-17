@@ -90,3 +90,18 @@ WHERE customer_id = (
 											FROM orders
 										)
 					);
+
+-- 16. Window function: rank all orders by amount, highest first
+SELECT order_id, product, amount, 
+RANK() OVER (ORDER BY amount DESC) AS rank_position 
+FROM orders;
+
+-- 17. Window function: rank orders within each customer by amount
+SELECT customer_id, order_id, product, amount,
+RANK() OVER (PARTITION BY customer_id ORDER BY amount DESC) AS rank_within_customer
+FROM orders;
+
+-- 18. Window function: running total of amount per customer
+SELECT customer_id, order_id, amount,
+SUM(amount) OVER(PARTITION BY customer_id ORDER BY order_id) AS running_total
+FROM orders;
